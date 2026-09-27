@@ -371,12 +371,12 @@ export default function Page() {
                     <div className="h-3 w-3 rounded-full bg-green-400" />
                   </div>
                   <div className="mx-auto flex items-center gap-2 text-xs font-medium text-muted-foreground bg-background px-3 py-1 rounded-md border border-border">
-                    <ShieldCheck size={12} /> Neo ePKS / Dashboard
+                    <ShieldCheck size={12} /> Neo ePKS / Carta Organisasi
                   </div>
                 </div>
                 <Image
-                  src={`${base}/screenshots/dashboard.jpg`}
-                  alt="Dashboard"
+                  src={`${base}/screenshots/jawatan.jpg`}
+                  alt="Carta Organisasi Neo ePKS"
                   width={1500}
                   height={900}
                   className="w-full object-cover"
@@ -391,10 +391,11 @@ export default function Page() {
               
               {/* Phone Mockup Overlapping */}
               <motion.div 
-                initial={{ opacity: 0, y: 100, x: 20 }}
-                animate={{ opacity: 1, y: 0, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-                className="absolute -bottom-6 -right-2 md:-bottom-12 md:-right-8 w-32 md:w-60 rounded-[1.5rem] md:rounded-[2.5rem] border-[6px] md:border-[10px] border-zinc-950 dark:border-black bg-zinc-950 shadow-2xl overflow-hidden z-20 hover:-translate-y-4 transition-transform duration-500"
+                initial={{ opacity: 0, y: 100, x: 50, rotateY: -15, rotateX: 10, rotateZ: -5 }}
+                animate={{ opacity: 1, y: 0, x: 0, rotateY: -15, rotateX: 10, rotateZ: -5 }}
+                whileHover={{ y: -20, rotateY: -5, rotateX: 5, rotateZ: 0, scale: 1.05 }}
+                transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
+                className="absolute -bottom-6 -right-2 md:-bottom-12 md:-right-12 w-32 md:w-64 rounded-[1.5rem] md:rounded-[2.5rem] border-[6px] md:border-[10px] border-zinc-950 dark:border-black bg-zinc-950 shadow-[0_35px_60px_-15px_rgba(0,0,0,0.6)] overflow-hidden z-20 cursor-pointer"
                 onClick={(e) => { e.stopPropagation(); setPreview(5); }}
                 title="Lihat paparan mobil"
               >
@@ -520,6 +521,91 @@ export default function Page() {
                     </div>
                   </motion.div>
                 </AnimatePresence>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Mobile App Section */}
+        <section className="py-32 relative overflow-hidden bg-zinc-950 text-zinc-50 border-t border-zinc-900">
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]" />
+          
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="text-center max-w-2xl mx-auto mb-20">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+              >
+                <p className="text-sm font-bold text-primary tracking-widest uppercase mb-4">Pengalaman Mudah Alih</p>
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-white">
+                  Pengurusan dalam poket anda.
+                </h2>
+                <p className="text-lg text-zinc-400">
+                  Neo ePKS direka khusus dengan paparan responsif. Urus kehadiran, semak perjumpaan dan lihat laporan terus melalui telefon pintar.
+                </p>
+              </motion.div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8">
+              {/* App 1: Dashboard */}
+              <div className="flex flex-col items-center">
+                <motion.div 
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.5 }}
+                  className="w-64 rounded-[2.5rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] overflow-hidden mb-8 relative cursor-pointer"
+                  onClick={() => setPreview(5)}
+                >
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-zinc-900 rounded-b-2xl z-30 flex justify-center items-center">
+                    <div className="w-10 h-1.5 rounded-full bg-zinc-800" />
+                  </div>
+                  <Image src={`${base}/screenshots/mobil.jpg`} alt="Dashboard Mobile" width={400} height={850} className="w-full h-auto object-cover" />
+                </motion.div>
+                <h3 className="text-xl font-bold mb-3 text-white">Dashboard Ringkas</h3>
+                <p className="text-zinc-400 text-center text-sm leading-relaxed max-w-[260px]">Rujuk statistik penglibatan murid dan status unit secara langsung melalui paparan utama yang mesra telefon.</p>
+              </div>
+
+              {/* App 2: Perjumpaan */}
+              <div className="flex flex-col items-center">
+                <motion.div 
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                  className="w-64 rounded-[2.5rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] overflow-hidden mb-8 relative cursor-pointer"
+                  onClick={() => setPreview(1)}
+                >
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-zinc-900 rounded-b-2xl z-30 flex justify-center items-center">
+                    <div className="w-10 h-1.5 rounded-full bg-zinc-800" />
+                  </div>
+                  <Image src={`${base}/screenshots/perjumpaan.jpg`} alt="Perjumpaan Mobile" width={400} height={850} className="w-full h-auto object-cover" />
+                </motion.div>
+                <h3 className="text-xl font-bold mb-3 text-white">Rekod Perjumpaan</h3>
+                <p className="text-zinc-400 text-center text-sm leading-relaxed max-w-[260px]">Kemas kini kehadiran ahli dan status aktiviti mingguan di mana-mana sahaja anda berada.</p>
+              </div>
+
+              {/* App 3: Laporan */}
+              <div className="flex flex-col items-center">
+                <motion.div 
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="w-64 rounded-[2.5rem] border-[10px] border-zinc-900 bg-zinc-900 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)] overflow-hidden mb-8 relative cursor-pointer"
+                  onClick={() => setPreview(2)}
+                >
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-20 h-6 bg-zinc-900 rounded-b-2xl z-30 flex justify-center items-center">
+                    <div className="w-10 h-1.5 rounded-full bg-zinc-800" />
+                  </div>
+                  <Image src={`${base}/screenshots/laporan.jpg`} alt="Laporan Mobile" width={400} height={850} className="w-full h-auto object-cover" />
+                </motion.div>
+                <h3 className="text-xl font-bold mb-3 text-white">Semakan Laporan</h3>
+                <p className="text-zinc-400 text-center text-sm leading-relaxed max-w-[260px]">Teliti refleksi, foto dan pengesahan laporan secara langsung dari peranti pintar dengan mudah.</p>
               </div>
             </div>
           </div>
