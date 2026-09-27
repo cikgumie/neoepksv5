@@ -1,40 +1,35 @@
 import type { Metadata, Viewport } from "next"
-import { Geist, Geist_Mono, Inter } from "next/font/google"
-
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 
 export const metadata: Metadata = {
-  title: "ePKS — Pengurusan Kokurikulum Sekolah",
+  title: "Neo ePKS — Urus lebih mudah. Bimbing lebih bermakna.",
   description:
-    "ePKS ialah sistem pengurusan kokurikulum sekolah yang memudahkan guru merekod kehadiran, perjumpaan, program, jawatan dan pencapaian murid — dalam satu platform web & desktop.",
+    "Kenali Neo ePKS, sistem pengurusan kokurikulum sekolah untuk rekod kehadiran, perjumpaan, program, jawatan dan pencapaian murid serta laporan A4.",
+  openGraph: {
+    title: "Neo ePKS — Pengurusan Kokurikulum Sekolah",
+    description:
+      "Satukan urusan kokurikulum sekolah dalam satu ruang yang tersusun.",
+    locale: "ms_MY",
+    type: "website"
+  }
 }
-
-export const viewport: Viewport = {
-  themeColor: "#070b14",
-}
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
+export const viewport: Viewport = { themeColor: "#faf8fc" }
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+  children
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="ms"
-      suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
-    >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
+    <html lang="ms" suppressHydrationWarning>
+      <body className="min-h-screen bg-background font-sans antialiased text-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )
