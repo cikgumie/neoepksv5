@@ -388,6 +388,28 @@ export default function Page() {
                   </div>
                 </div>
               </div>
+              
+              {/* Phone Mockup Overlapping */}
+              <motion.div 
+                initial={{ opacity: 0, y: 100, x: 20 }}
+                animate={{ opacity: 1, y: 0, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
+                className="absolute -bottom-6 -right-2 md:-bottom-12 md:-right-8 w-32 md:w-60 rounded-[1.5rem] md:rounded-[2.5rem] border-[6px] md:border-[10px] border-zinc-950 dark:border-black bg-zinc-950 shadow-2xl overflow-hidden z-20 hover:-translate-y-4 transition-transform duration-500"
+                onClick={(e) => { e.stopPropagation(); setPreview(5); }}
+                title="Lihat paparan mobil"
+              >
+                {/* Phone Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-12 md:w-20 h-4 md:h-6 bg-zinc-950 dark:bg-black rounded-b-xl md:rounded-b-2xl z-30 flex justify-center items-center">
+                  <div className="w-6 md:w-10 h-1 md:h-1.5 rounded-full bg-zinc-800" />
+                </div>
+                <Image
+                  src={`${base}/screenshots/mobil.jpg`}
+                  alt="Paparan Telefon Pintar Neo ePKS"
+                  width={400}
+                  height={850}
+                  className="w-full h-auto object-cover"
+                />
+              </motion.div>
             </motion.div>
           </div>
         </section>
