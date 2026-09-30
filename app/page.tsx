@@ -21,9 +21,11 @@ import {
   Monitor,
   Network,
   Plus,
+  Send,
   ShieldCheck,
   Smartphone,
   Sparkles,
+  Tag,
   Trophy,
   Users,
   X,
@@ -187,8 +189,12 @@ const faqs = [
     "Paparan laporan perjumpaan menyediakan format A4 yang mengandungi butiran aktiviti, analisis kehadiran, refleksi dan foto. Carta organisasi serta senarai rumusan turut mempunyai pilihan cetakan A4."
   ],
   [
-    "Bagaimana hendak mendapatkan akses?",
-    "Hubungi pentadbir atau penyelaras sistem di sekolah anda untuk maklumat akses dan akaun. Halaman ini memperkenalkan fungsi Neo ePKS; akses sistem diuruskan secara berasingan oleh sekolah."
+    "Berapakah harga dan bagaimana cara menempah sistem ini?",
+    "Neo ePKS v5 kini ditawarkan pada harga promosi RM 100 sahaja (harga asal RM 150) sekali bayar tanpa caj bulanan tersembunyi. Anda boleh menempah terus melalui Borang Tempahan dalam talian untuk menerima salinan Google Sheets & Apps Script penuh serta panduan lengkap."
+  ],
+  [
+    "Adakah disediakan bantuan & komuniti selepas pembelian?",
+    "Ya! Setiap pengguna dialu-alukan menyertai Support Group rasmi kami di Telegram (t.me/AppSekolahMalaysia) untuk sebarang bimbingan teknikal, sesi soal jawab, dan hebahan kemas kini terkini."
   ]
 ]
 
@@ -238,6 +244,7 @@ export default function Page() {
     ["Fungsi", "fungsi"],
     ["Jelajah sistem", "jelajah"],
     ["Cara kerja", "cara-kerja"],
+    ["Harga & Tempahan", "tempahan"],
     ["Soalan lazim", "soalan"]
   ]
 
@@ -264,8 +271,8 @@ export default function Page() {
           
           <div className="flex items-center gap-4">
             <ThemeToggle />
-            <a href="#jelajah" className="hidden md:inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:-translate-y-0.5">
-              Kenali Neo ePKS <ArrowUpRight size={16} />
+            <a href="#tempahan" className="hidden md:inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:-translate-y-0.5">
+              Tempah Sekarang <span className="bg-primary-foreground/20 px-2 py-0.5 rounded-full text-xs font-bold">RM100</span>
             </a>
             <button
               className="md:hidden p-2 text-foreground"
@@ -306,10 +313,10 @@ export default function Page() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-xs font-bold tracking-widest text-primary uppercase"
+              className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-bold tracking-widest text-primary uppercase shadow-sm"
             >
               <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
-              Pengurusan Kokurikulum Dipermudahkan
+              Tawaran Promosi: RM 100 (Harga Asal ~RM 150~) • Jimat RM 50
             </motion.div>
             
             <motion.h1 
@@ -341,13 +348,20 @@ export default function Page() {
               transition={{ duration: 0.5, delay: 0.3 }}
               className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
             >
-              <a href="#jelajah" className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:-translate-y-1">
-                Jelajah sistem <ArrowRight size={18} />
+              <a href="#tempahan" className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-sm font-semibold text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:-translate-y-1">
+                Tempah Sekarang (RM100) <ArrowRight size={18} />
               </a>
-              <a href="#fungsi" className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-card border border-border px-8 py-4 text-sm font-semibold text-foreground transition-all hover:bg-accent hover:-translate-y-1">
-                Lihat fungsi utama <ChevronDown size={18} />
+              <a href="#jelajah" className="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-card border border-border px-8 py-4 text-sm font-semibold text-foreground transition-all hover:bg-accent hover:-translate-y-1">
+                Jelajah Fungsi & Demo <ChevronDown size={18} />
               </a>
             </motion.div>
+            
+            <div className="mt-4 flex items-center justify-center gap-2 text-xs md:text-sm text-muted-foreground">
+              <span>Perlukan bantuan atau pertanyaan?</span>
+              <a href="https://t.me/AppSekolahMalaysia" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-semibold text-primary hover:underline">
+                <Send size={13} /> Support Group Telegram
+              </a>
+            </div>
 
             {/* 3D Showcase */}
             <motion.div 
@@ -671,6 +685,107 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Pricing & Booking Section */}
+        <section id="tempahan" className="py-24 relative overflow-hidden bg-muted/30 border-t border-border">
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="text-center max-w-2xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold tracking-widest text-primary uppercase mb-4">
+                <Sparkles size={14} className="text-primary" />
+                Pakej Pengenalan Rasmi
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+                Miliki Sistem Neo ePKS v5 Sekarang
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Satu pelaburan pintar untuk menjimatkan ratusan jam pengurusan kokurikulum sekolah anda sepanjang tahun.
+              </p>
+            </div>
+
+            {/* Pricing Card */}
+            <div className="max-w-2xl mx-auto">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="relative rounded-3xl border-2 border-primary/40 bg-card p-8 md:p-12 shadow-2xl overflow-hidden"
+              >
+                {/* Glow Effect */}
+                <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-primary/10 blur-3xl pointer-events-none" />
+                <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-purple-600/10 blur-3xl pointer-events-none" />
+
+                {/* Badge Discount */}
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <p className="text-xs font-bold text-primary tracking-widest uppercase">Lesen Penuh Penggunaan</p>
+                    <h3 className="text-2xl font-bold text-foreground mt-1">Sistem Neo ePKS v5 (Edisi 2026)</h3>
+                  </div>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400">
+                    <Tag size={12} /> Jimat RM 50
+                  </span>
+                </div>
+
+                {/* Price Display */}
+                <div className="flex items-baseline gap-4 mb-8 pb-8 border-b border-border">
+                  <span className="text-5xl md:text-6xl font-extrabold text-foreground tracking-tight">RM 100</span>
+                  <div className="flex flex-col">
+                    <span className="text-lg text-muted-foreground line-through font-semibold">RM 150</span>
+                    <span className="text-xs text-muted-foreground">Harga promosi sekali bayar</span>
+                  </div>
+                </div>
+
+                {/* Features List */}
+                <div className="space-y-4 mb-10">
+                  <p className="text-sm font-bold text-foreground">Apa yang anda dapat dalam pakej ini:</p>
+                  <ul className="space-y-3.5">
+                    {[
+                      "Salinan penuh Google Sheets & Google Apps Script Neo ePKS v5",
+                      "Pengurusan 3 Unit Utama (Badan Beruniform, Kelab/Persatuan, Sukan)",
+                      "Modul Kehadiran Perjumpaan Mingguan Pantas & Analisis",
+                      "Pengiraan Markah PAJSK & Gred Automatik Format KPM",
+                      "Modul Ekstrakurikulum & Pengurusan Rekod Jawatan / Pencapaian Murid",
+                      "Penjana Laporan & Sijil Format A4 Sedia Cetak",
+                      "Paparan Responsif Mesra Telefon Pintar (Mobile-friendly)",
+                      "Bimbingan & Akses Komuniti Support Group Telegram Rasmi"
+                    ].map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-3 text-sm md:text-base text-foreground">
+                        <div className="mt-0.5 w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                          <Check size={14} className="stroke-[3]" />
+                        </div>
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <a
+                    href="https://forms.gle/wBc9N9BYVN5FZf3f9"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-4 text-base font-bold text-primary-foreground shadow-xl shadow-primary/25 transition-all hover:bg-primary/90 hover:-translate-y-0.5"
+                  >
+                    <FileText size={18} /> Borang Tempahan <ArrowUpRight size={16} />
+                  </a>
+                  <a
+                    href="https://t.me/AppSekolahMalaysia"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-card border border-border px-6 py-4 text-sm font-semibold text-foreground transition-all hover:bg-muted hover:-translate-y-0.5"
+                  >
+                    <Send size={16} className="text-blue-500" /> Support Group Telegram
+                  </a>
+                </div>
+
+                <p className="text-xs text-center text-muted-foreground mt-6">
+                  ⚡ Borang tempahan dibuka secara rasmi. Bantuan disediakan melalui komuniti Telegram kami.
+                </p>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ Section */}
         <section id="soalan" className="py-24">
           <div className="max-w-3xl mx-auto px-6">
@@ -698,15 +813,33 @@ export default function Page() {
           <div className="absolute inset-0 bg-primary dark:bg-primary/90" />
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
           <div className="max-w-4xl mx-auto px-6 text-center relative z-10">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold tracking-widest text-white uppercase mb-4 backdrop-blur-md">
+              🔥 Tawaran Pengenalan: RM 100 Sahaja (Jimat RM 50)
+            </div>
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6">
               Beri ruang untuk potensi murid.<br />Biar rekod lebih mudah diurus.
             </h2>
             <p className="text-xl text-white/80 mb-10 max-w-2xl mx-auto">
-              Kenali bagaimana Neo ePKS membantu perjalanan kokurikulum sekolah anda hari ini.
+              Dapatkan salinan sistem penuh Neo ePKS v5 untuk sekolah anda hari ini.
             </p>
-            <a href="#jelajah" className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-4 text-sm font-bold text-primary shadow-2xl transition-transform hover:scale-105">
-              Terokai Neo ePKS <ArrowUpRight size={18} />
-            </a>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a
+                href="https://forms.gle/wBc9N9BYVN5FZf3f9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-white px-8 py-4 text-sm font-bold text-primary shadow-2xl transition-transform hover:scale-105"
+              >
+                Isi Borang Tempahan (RM100) <ArrowUpRight size={18} />
+              </a>
+              <a
+                href="https://t.me/AppSekolahMalaysia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl bg-white/10 border border-white/20 px-8 py-4 text-sm font-bold text-white backdrop-blur-sm transition-transform hover:bg-white/20"
+              >
+                <Send size={16} /> Support Group Telegram
+              </a>
+            </div>
           </div>
         </section>
       </main>
@@ -718,6 +851,25 @@ export default function Page() {
             <p className="text-sm text-muted-foreground text-center md:text-left">
               Pengurusan kokurikulum yang lebih teratur.<br />Untuk pendidik. Untuk masa depan murid.
             </p>
+            <div className="flex flex-wrap items-center gap-4 text-sm font-medium">
+              <a
+                href="https://forms.gle/wBc9N9BYVN5FZf3f9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center gap-1.5"
+              >
+                <FileText size={14} /> Borang Tempahan (RM100)
+              </a>
+              <span className="text-muted-foreground">•</span>
+              <a
+                href="https://t.me/AppSekolahMalaysia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:underline inline-flex items-center gap-1.5"
+              >
+                <Send size={14} /> Support Group Telegram
+              </a>
+            </div>
           </div>
           <div className="text-sm text-muted-foreground text-center md:text-right">
             © {new Date().getFullYear()} Neo ePKS.<br />Dibina dengan tujuan. Untuk pendidikan.
