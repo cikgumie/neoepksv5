@@ -1,35 +1,65 @@
-# Neo ePKS — landing page
+# 🚀 Neo ePKS v5 — Sistem Pengurusan Kokurikulum Sekolah
 
-Landing page Bahasa Melayu untuk memperkenalkan fungsi pengurusan kokurikulum kepada warga sekolah.
+> Laman web rasmi & sistem pendaratan (*landing page*) untuk **Neo ePKS v5**, sistem pengurusan dan pentaksiran kokurikulum sekolah (PAJSK) moden berasaskan Google Cloud & Sheets.
 
-## Jalankan secara lokal
+🔗 **Laman Web Rasmi (Live):** [https://cikgumie.github.io/neoepksv5/](https://cikgumie.github.io/neoepksv5/)
 
+---
+
+## 🏷️ Tawaran & Pakej Tempahan Rasmi
+
+| Perkara | Butiran |
+| :--- | :--- |
+| **Harga Sebenar** | ~~RM 150~~ |
+| **Harga Promosi Semasa** | **RM 100** *(Jimat RM 50 — Sekali bayar, tiada yuran bulanan tersembunyi)* |
+| **Borang Tempahan** | 📝 [Klik Di Sini Untuk Borang Tempahan](https://forms.gle/wBc9N9BYVN5FZf3f9) |
+| **Support Group Telegram** | 💬 [Sertai Komuniti Guru (t.me/AppSekolahMalaysia)](https://t.me/AppSekolahMalaysia) |
+
+---
+
+## ✨ Ciri-Ciri Utama Sistem Neo ePKS v5
+
+- **Pengurusan 3 Unit Utama**: Kelab & Persatuan, Pasukan Badan Beruniform, serta Sukan & Permainan.
+- **Kehadiran Mingguan Pantas**: Rekod perjumpaan dan kehadiran ahli dengan carian pantas tanpa lag.
+- **Pengiraan Markah PAJSK & Ekstrakurikulum**: Penggredan dan pengiraan automatik selaras format Kementerian Pendidikan Malaysia (KPM).
+- **Laporan & Sijil Format A4**: Penjanaan laporan perjumpaan, aktiviti, foto serta rumusan sekolah sedia untuk dicetak.
+- **Paparan Responsif**: Dioptimumkan sepenuhnya untuk paparan desktop komputer mahupun telefon pintar guru.
+- **Sokongan Komuniti**: Akses bimbingan berterusan melalui komuniti Telegram App Sekolah Malaysia.
+
+---
+
+## 🛠️ Pembangunan & Ujian Tempatan (Local Development)
+
+### 1. Pasang Keperluan:
 ```sh
 npm ci
-npm run dev
 ```
 
-Buka http://localhost:3000. Semakan projek:
+### 2. Jalankan Server Pembangunan:
+```sh
+npm run dev
+```
+Buka [http://localhost:3000](http://localhost:3000) pada pelayar web anda.
 
+### 3. Semakan Kod & Build:
 ```sh
 npm run lint
 npm run typecheck
 npm run build
 ```
 
-## Kandungan dan interaksi
+---
 
-- Hero menggunakan screenshot dashboard sebenar.
-- Enam penerangan fungsi, galeri enam paparan, aliran kerja dan penerangan tiga peranan.
-- Galeri menyokong papan kekunci (anak panah, Home, End), pembesaran gambar melalui dialog, dan tutup dengan Escape.
-- Menu telefon, FAQ boleh dibuka, fokus papan kekunci dan reduced motion.
-- Tiada borang pendaftaran atau pautan akses rekaan. CTA membuka penerangan sistem; akses dirujuk kepada pentadbir sekolah.
+## 📁 Struktur Fail Utama
 
-## Fail utama
+- `app/page.tsx`: Halaman utama landing page, showcase interaktif, modul tempahan dan CTA.
+- `app/globals.css`: Reka bentuk tema (*Dark/Light mode*) & gaya visual.
+- `app/layout.tsx`: Konfigurasi metadata SEO dan skrip sokongan.
+- `public/screenshots/`: Tangkapan skrin sebenar antaramuka sistem Neo ePKS v5.
 
-- `app/page.tsx`: kandungan dan interaksi.
-- `app/globals.css`: reka bentuk dan breakpoint responsif.
-- `app/layout.tsx`: bahasa dan metadata.
-- `public/screenshots/`: salinan screenshot untuk laman. Fail asal dalam `Gambar NeoEPKS/` dikekalkan.
+---
 
-Konfigurasi sedia ada mengeksport laman statik ke `out/` dengan base path `/neoepksv5` bagi production/GitHub Pages. `NEXT_PUBLIC_BASE_PATH` ditetapkan oleh `next.config.ts` supaya screenshot mengikuti base path yang sama. Untuk hosting pada domain root, kemas kini kedua-dua tetapan bersama.
+## 🌐 Deployment (GitHub Pages)
+
+Projek ini dikonfigurasikan untuk dieksport secara statik (`output: 'export'`) dengan base path `/neoepksv5`. Setiap kali branch `main` menerima kemas kini (*push*), GitHub Actions akan secara automatik membina dan menerbitkan laman web terkini ke:
+👉 **[https://cikgumie.github.io/neoepksv5/](https://cikgumie.github.io/neoepksv5/)**
