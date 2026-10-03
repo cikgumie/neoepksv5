@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { useState, useRef, useEffect } from "react"
+import Link from "next/link"
 import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -20,6 +21,7 @@ import {
   Menu,
   Monitor,
   Network,
+  PlayCircle,
   Plus,
   Send,
   ShieldCheck,
@@ -28,6 +30,7 @@ import {
   Tag,
   Trophy,
   Users,
+  Video,
   X,
   ZoomIn
 } from "lucide-react"
@@ -267,6 +270,12 @@ export default function Page() {
                 {label}
               </a>
             ))}
+            <Link
+              href="/tutorial"
+              className="inline-flex items-center gap-1.5 font-semibold text-primary hover:text-primary/80 transition-colors"
+            >
+              <Video size={16} /> Tutorial (10 Video)
+            </Link>
           </nav>
           
           <div className="flex items-center gap-4">
@@ -299,6 +308,16 @@ export default function Page() {
                     <ArrowUpRight size={16} className="text-muted-foreground" />
                   </a>
                 ))}
+                <Link
+                  href="/tutorial"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex justify-between items-center py-2.5 text-primary font-bold border-t border-border pt-3"
+                >
+                  <span className="flex items-center gap-2">
+                    <Video size={18} /> Tutorial Video (10 Panduan)
+                  </span>
+                  <ArrowUpRight size={16} className="text-primary" />
+                </Link>
               </div>
             </motion.nav>
           )}
@@ -685,6 +704,86 @@ export default function Page() {
           </div>
         </section>
 
+        {/* Tutorial Section Teaser */}
+        <section id="tutorial" className="py-24 relative overflow-hidden bg-background border-t border-border">
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="text-center max-w-3xl mx-auto mb-16">
+              <div className="inline-flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 text-xs font-bold tracking-widest text-primary uppercase mb-4">
+                <Video size={14} className="text-primary" />
+                Pusat Tutorial & Panduan Rasmi
+              </div>
+              <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+                10 Video Panduan Lengkap Untuk Anda
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                Kami sediakan 10 video panduan langkah demi langkah percuma untuk membantu guru penasihat, penyelaras dan pentadbir menguasai Neo ePKS v5 dengan mudah dan pantas.
+              </p>
+            </div>
+
+            {/* 3 Featured Video Cards Preview */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-12">
+              {[
+                {
+                  order: "01",
+                  title: "Persediaan Awal & Kebenaran Google Drive",
+                  desc: "Langkah pertama selepas pembelian — salinan master Google Sheets & tetapan profil sekolah.",
+                  tag: "Persediaan",
+                  dur: "05:30"
+                },
+                {
+                  order: "05",
+                  title: "Rekod Kehadiran Mingguan Menggunakan Telefon",
+                  desc: "Cara pantas guru penasihat menanda kehadiran perjumpaan ahli secara langsung tanpa lag.",
+                  tag: "Kehadiran",
+                  dur: "08:10"
+                },
+                {
+                  order: "07",
+                  title: "Menjana Laporan Perjumpaan Format A4 Rasmi",
+                  desc: "Satu klik untuk jana lembaran laporan A4 lengkap analisis dan foto aktiviti sedia dicetak.",
+                  tag: "Laporan A4",
+                  dur: "05:45"
+                }
+              ].map((item, idx) => (
+                <Link
+                  key={idx}
+                  href="/tutorial"
+                  className="rounded-2xl border border-border bg-card p-6 flex flex-col justify-between hover:border-primary/50 hover:shadow-xl transition-all duration-300 group"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-mono font-bold text-primary">#{item.order}</span>
+                      <span className="bg-primary/10 text-primary font-semibold px-2.5 py-0.5 rounded-full">{item.tag}</span>
+                    </div>
+                    <h3 className="font-bold text-foreground text-lg group-hover:text-primary transition-colors leading-snug">
+                      {item.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      {item.desc}
+                    </p>
+                  </div>
+                  <div className="pt-4 border-t border-border flex items-center justify-between mt-6 text-xs text-muted-foreground">
+                    <span>Masa: {item.dur} min</span>
+                    <span className="text-primary font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                      Tonton <ArrowUpRight size={14} />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            {/* CTA Button to Full Tutorial Page */}
+            <div className="text-center">
+              <Link
+                href="/tutorial"
+                className="inline-flex items-center gap-2 rounded-2xl bg-primary px-8 py-4 text-sm font-bold text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105"
+              >
+                <Video size={18} /> Buka Halaman 10 Video Tutorial Penuh <ArrowRight size={18} />
+              </Link>
+            </div>
+          </div>
+        </section>
+
         {/* Pricing & Booking Section */}
         <section id="tempahan" className="py-24 relative overflow-hidden bg-muted/30 border-t border-border">
           <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -852,6 +951,13 @@ export default function Page() {
               Pengurusan kokurikulum yang lebih teratur.<br />Untuk pendidik. Untuk masa depan murid.
             </p>
             <div className="flex flex-wrap items-center gap-4 text-sm font-medium">
+              <Link
+                href="/tutorial"
+                className="text-primary hover:underline inline-flex items-center gap-1.5"
+              >
+                <Video size={14} /> 10 Video Tutorial
+              </Link>
+              <span className="text-muted-foreground">•</span>
               <a
                 href="https://forms.gle/wBc9N9BYVN5FZf3f9"
                 target="_blank"

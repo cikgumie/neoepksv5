@@ -1,9 +1,8 @@
-import type { NextConfig } from "next"
-
 const isGithubPages =
   process.env.GITHUB_ACTIONS || process.env.NODE_ENV === "production"
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: "export",
   basePath: isGithubPages ? "/neoepksv5" : "",
   env: { NEXT_PUBLIC_BASE_PATH: isGithubPages ? "/neoepksv5" : "" },
