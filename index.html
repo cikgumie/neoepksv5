@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="ms" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neo ePKS v5 — Sistem Pengurusan Kokurikulum Sekolah (PAJSK)</title>
+  <meta name="description" content="Laman web rasmi & sistem pendaratan Neo ePKS v5. Sistem pengurusan dan pentaksiran kokurikulum sekolah moden berasaskan Google Cloud & Sheets.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237c3aed' stroke-width='2'><path d='M22 10v6M2 10l10-5 10 5-10 5z'/><path d='M6 12v5c3 3 9 3 12 0v-5'/></svg>">
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              DEFAULT: '#7c3aed',
+              hover: '#6d28d9',
+              light: '#8b5cf6',
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              700: '#6d28d9',
+              900: '#4c1d95',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom glow and backdrop effects */
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .dark .glass {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .text-glow {
+      text-shadow: 0 0 25px rgba(124, 58, 237, 0.35);
+    }
+  </style>
+
+  <!-- Early Dark Mode Detection -->
+  <script>
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300 font-sans antialiased overflow-x-hidden selection:bg-primary-500/20">
+
+  <!-- Background Orbs -->
+  <div class="fixed top-[-10%] left-[-10%] w-[45vw] h-[45vw] rounded-full bg-purple-600/10 dark:bg-purple-900/20 blur-[130px] pointer-events-none -z-10"></div>
+  <div class="fixed top-[30%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-blue-600/10 dark:bg-blue-900/20 blur-[130px] pointer-events-none -z-10"></div>
+  <div class="fixed bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-primary-600/10 dark:bg-primary-900/15 blur-[150px] pointer-events-none -z-10"></div>
+
+  <!-- Top Announcement Bar -->
+  <aside aria-label="Tawaran Promosi" class="bg-gradient-to-r from-purple-700 via-primary-600 to-indigo-700 text-white text-xs md:text-sm font-semibold py-2 px-4 text-center flex items-center justify-center gap-2 shadow-sm">
+    <span class="bg-white/20 text-white text-[11px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Promosi 2026</span>
+    <span>Dapatkan Lesen Penuh Neo ePKS v5 hanya <strong>RM 100</strong> (Jimat RM 50) sekali bayar!</span>
+    <a href="#tempahan" class="underline hover:text-purple-200 transition-colors ml-1">Tempah Sekarang &rarr;</a>
+  </aside>
+
+  <!-- Sticky Navbar -->
+  <header class="sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-slate-800/80 glass">
+    <div class="max-w-7xl mx-auto flex h-20 items-center justify-between px-4 sm:px-6">
+      
+      <!-- Brand -->
+      <a href="#utama" class="inline-flex items-center gap-3 text-2xl font-extrabold tracking-tight">
+        <span class="grid h-11 w-11 place-items-center rounded-xl bg-primary-600 text-white shadow-lg shadow-primary-500/30">
+          <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+        </span>
+        <span class="text-slate-900 dark:text-white">
+          neo<span class="font-normal text-slate-600 dark:text-slate-400">ePKS</span><span class="text-primary-600">.</span>
+        </span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold text-slate-600 dark:text-slate-300">
+        <a href="#fungsi" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Fungsi</a>
+        <a href="#jelajah" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Jelajah Sistem</a>
+        <a href="#peranan" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Peranan</a>
+        <a href="#tutorial" class="inline-flex items-center gap-1.5 text-primary-600 dark:text-primary-400 font-bold hover:text-primary-700 transition-colors">
+          <i data-lucide="video" class="w-4 h-4"></i> Tutorial (10 Video)
+        </a>
+        <a href="#tempahan" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Harga & Tempahan</a>
+        <a href="#soalan" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Soalan Lazim</a>
+      </nav>
+
+      <!-- Right Header Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Theme Toggle -->
+        <button id="themeToggleBtn" type="button" aria-label="Tukar Tema Warna" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/80 transition-colors">
+          <i id="themeIconSun" data-lucide="sun" class="w-5 h-5 hidden"></i>
+          <i id="themeIconMoon" data-lucide="moon" class="w-5 h-5 hidden"></i>
+        </button>
+
+        <!-- CTA Button -->
+        <a href="#tempahan" class="hidden sm:inline-flex items-center gap-2 rounded-xl bg-primary-600 hover:bg-primary-700 text-white px-5 py-2.5 text-sm font-bold shadow-lg shadow-primary-500/25 transition-all hover:-translate-y-0.5">
+          <span>Tempah Sekarang</span>
+          <span class="bg-white/20 px-2 py-0.5 rounded-md text-xs font-extrabold">RM100</span>
+        </a>
+
+        <!-- Mobile Menu Toggle Button -->
+        <button id="mobileMenuBtn" type="button" aria-label="Buka Menu" class="lg:hidden p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200">
+          <i id="menuIconBars" data-lucide="menu" class="w-6 h-6"></i>
+          <i id="menuIconClose" data-lucide="x" class="w-6 h-6 hidden"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Nav Dropdown -->
+    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-950/95 px-6 py-4 space-y-3">
+      <a href="#fungsi" class="mobile-link flex items-center justify-between py-2 text-slate-700 dark:text-slate-200 font-semibold">
+        <span>Fungsi Utama</span> <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+      </a>
+      <a href="#jelajah" class="mobile-link flex items-center justify-between py-2 text-slate-700 dark:text-slate-200 font-semibold">
+        <span>Jelajah Sistem & Demo</span> <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+      </a>
+      <a href="#peranan" class="mobile-link flex items-center justify-between py-2 text-slate-700 dark:text-slate-200 font-semibold">
+        <span>Untuk Siapa? (Peranan)</span> <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+      </a>
+      <a href="#tutorial" class="mobile-link flex items-center justify-between py-2 text-primary-600 font-bold border-t border-slate-100 dark:border-slate-900 pt-3">
+        <span class="flex items-center gap-2"><i data-lucide="video" class="w-4 h-4"></i> 10 Video Panduan Percuma</span> <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+      </a>
+      <a href="#tempahan" class="mobile-link flex items-center justify-between py-2 text-slate-700 dark:text-slate-200 font-semibold">
+        <span>Harga & Tempahan (RM100)</span> <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+      </a>
+      <a href="#soalan" class="mobile-link flex items-center justify-between py-2 text-slate-700 dark:text-slate-200 font-semibold">
+        <span>Soalan Lazim</span> <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+      </a>
+      <div class="pt-3">
+        <a href="#tempahan" class="mobile-link flex items-center justify-center gap-2 w-full rounded-xl bg-primary-600 text-white py-3 text-sm font-bold shadow-md">
+          <span>Isi Borang Tempahan</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section id="utama" class="relative pt-16 md:pt-24 pb-20 md:pb-32 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center relative z-10">
+        
+        <!-- Discount Pill -->
+        <div class="inline-flex items-center gap-2 rounded-full border border-primary-500/30 bg-primary-500/10 px-4 py-1.5 text-xs font-extrabold tracking-widest text-primary-600 dark:text-primary-400 uppercase shadow-sm">
+          <span class="h-2.5 w-2.5 rounded-full bg-primary-600 animate-ping"></span>
+          Tawaran Promosi: RM 100 (Harga Asal RM 150) • Jimat RM 50
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="mt-8 text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-[1.15]">
+          Urus lebih mudah.<br>
+          Bimbing <span class="relative inline-block text-primary-600 dark:text-primary-400">
+            lebih bermakna.
+            <svg class="absolute -bottom-2.5 left-0 w-full h-4 text-primary-500/40" viewBox="0 0 100 10" preserveAspectRatio="none">
+              <path d="M0 5 Q 50 10 100 5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </h1>
+
+        <!-- Subheading -->
+        <p class="mt-8 text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
+          Daripada rekod kehadiran, pentaksiran PAJSK hingga pencapaian murid. Satukan pengurusan kokurikulum sekolah dalam sistem moden, pantas dan bersedia format A4 berasaskan Google Cloud & Sheets.
+        </p>
+
+        <!-- CTA Action Buttons -->
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="#tempahan" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 text-base font-bold shadow-xl shadow-primary-500/30 transition-all hover:-translate-y-1">
+            <span>Tempah Sekarang (RM100)</span>
+            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+          </a>
+          <a href="#jelajah" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/80 px-8 py-4 text-base font-bold transition-all hover:-translate-y-1 shadow-sm">
+            <span>Jelajah Demo & Gambar</span>
+            <i data-lucide="chevron-down" class="w-5 h-5"></i>
+          </a>
+        </div>
+
+        <!-- Telegram Support Note -->
+        <div class="mt-5 flex items-center justify-center gap-2 text-xs sm:text-sm text-slate-500 dark:text-slate-400">
+          <span>Perlukan maklumat lanjut?</span>
+          <a href="https://t.me/AppSekolahMalaysia" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-bold text-primary-600 dark:text-primary-400 hover:underline">
+            <i data-lucide="send" class="w-3.5 h-3.5"></i> Komuniti Telegram Rasmi
+          </a>
+        </div>
+
+        <!-- 3D Window Mockup Showcase -->
+        <div class="relative mt-16 max-w-5xl mx-auto group cursor-pointer" onclick="openLightbox('screenshots/dashboard.jpg', 'Dashboard Menyeluruh Neo ePKS v5')">
+          <div class="relative rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl overflow-hidden transition-all duration-300 group-hover:shadow-primary-500/10 group-hover:border-primary-500/40">
+            <!-- Window header -->
+            <div class="flex h-11 items-center justify-between border-b border-slate-200 dark:border-slate-800 bg-slate-100/70 dark:bg-slate-950/70 px-4">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                <span class="text-xs font-semibold text-slate-400 ml-2 hidden sm:inline">Neo ePKS v5 — Paparan Dashboard Utama</span>
+              </div>
+              <div class="flex items-center gap-1 text-xs font-bold text-primary-600 bg-primary-50 dark:bg-primary-950/50 px-2.5 py-1 rounded-md">
+                <i data-lucide="zoom-in" class="w-3.5 h-3.5"></i> Klik Untuk Zoom
+              </div>
+            </div>
+            <!-- Mockup Image -->
+            <div class="relative overflow-hidden aspect-[16/9] bg-slate-900">
+              <img src="screenshots/dashboard.jpg" alt="Dashboard Utama Neo ePKS v5" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.02]">
+              <div class="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/20 transition-colors flex items-center justify-center">
+                <span class="opacity-0 group-hover:opacity-100 transition-opacity bg-white/90 dark:bg-slate-900/90 text-slate-900 dark:text-white font-bold text-sm px-4 py-2 rounded-xl shadow-lg backdrop-blur-sm flex items-center gap-2">
+                  <i data-lucide="maximize-2" class="w-4 h-4"></i> Papar Saiz Penuh
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CIRI-CIRI UTAMA (FEATURES GRID) -->
+    <section id="fungsi" class="py-24 bg-white dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        
+        <div class="text-center max-w-3xl mx-auto mb-16">
+          <p class="text-xs font-extrabold text-primary-600 dark:text-primary-400 uppercase tracking-widest mb-3">Keupayaan Sistem</p>
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Semua Modul Kokurikulum Dalam Satu Tempat
+          </h2>
+          <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-300">
+            Direka mengikut garis panduan Kementerian Pendidikan Malaysia (KPM) untuk memudahkan kerja guru penasihat dan pentadbir sekolah.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          
+          <!-- Card 1 -->
+          <div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 p-8 hover:border-primary-500/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-13 h-13 inline-flex p-3.5 rounded-2xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 mb-6">
+                <i data-lucide="clipboard-check" class="w-7 h-7"></i>
+              </div>
+              <span class="block text-xs font-bold text-primary-600 uppercase tracking-wider mb-2">Rekod Harian</span>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Kehadiran & Perjumpaan</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Rekod kehadiran ahli dan catatan aktiviti mingguan dengan carian pantas. Kenal pasti unit yang sudah lengkap atau perlu tindakan susulan.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center text-xs font-semibold text-slate-500">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-500 mr-1.5"></i> Sokong tanda kehadiran guna telefon
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 p-8 hover:border-primary-500/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-13 h-13 inline-flex p-3.5 rounded-2xl bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 mb-6">
+                <i data-lucide="calendar-days" class="w-7 h-7"></i>
+              </div>
+              <span class="block text-xs font-bold text-orange-600 uppercase tracking-wider mb-2">Pengurusan Aktiviti</span>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Program & Peristiwa</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Susun rekod program sekolah (merentas desa, perkhemahan, sukan tahunan) supaya dokumentasi dan senarai pemenang mudah dikumpul.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center text-xs font-semibold text-slate-500">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-500 mr-1.5"></i> Kompilasi buku program automatik
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 p-8 hover:border-primary-500/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-13 h-13 inline-flex p-3.5 rounded-2xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-6">
+                <i data-lucide="network" class="w-7 h-7"></i>
+              </div>
+              <span class="block text-xs font-bold text-blue-600 uppercase tracking-wider mb-2">Organisasi Unit</span>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Jawatan & Kepimpinan</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Urus lantikan jawatankuasa murid mengikut hierarki dan jana carta organisasi visual yang siap sedia dipamerkan di papan kenyataan.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center text-xs font-semibold text-slate-500">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-500 mr-1.5"></i> Markah bonus jawatan automatik
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 p-8 hover:border-primary-500/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-13 h-13 inline-flex p-3.5 rounded-2xl bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400 mb-6">
+                <i data-lucide="trophy" class="w-7 h-7"></i>
+              </div>
+              <span class="block text-xs font-bold text-pink-600 uppercase tracking-wider mb-2">Pentaksiran Rasmi</span>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Markah PAJSK & Ekstra</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Kira markah PAJSK dan gred secara automatik (Kehadiran 50%, Jawatan 10%, Penglibatan 20%, Prestasi 20%) bersama markah bonus ekstrakurikulum.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center text-xs font-semibold text-slate-500">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-500 mr-1.5"></i> Penjanaan gred A, B, C, D, E tepat
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 p-8 hover:border-primary-500/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-13 h-13 inline-flex p-3.5 rounded-2xl bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 mb-6">
+                <i data-lucide="bar-chart-3" class="w-7 h-7"></i>
+              </div>
+              <span class="block text-xs font-bold text-emerald-600 uppercase tracking-wider mb-2">Gambaran Menyeluruh</span>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Dashboard & Analitik</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Pantau peratusan kehadiran setiap unit, statistik murid berisiko markah rendah, dan kelengkapan fail secara masa nyata.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center text-xs font-semibold text-slate-500">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-500 mr-1.5"></i> Data sedia eksport untuk PPD/JPN
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900 p-8 hover:border-primary-500/50 hover:shadow-xl transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="w-13 h-13 inline-flex p-3.5 rounded-2xl bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 mb-6">
+                <i data-lucide="file-text" class="w-7 h-7"></i>
+              </div>
+              <span class="block text-xs font-bold text-purple-600 uppercase tracking-wider mb-2">Dokumentasi Sekolah</span>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mb-3">Laporan A4 Sedia Cetak</h3>
+              <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                Jana helaian laporan mingguan berformat A4 lengkap dengan statistik kehadiran, refleksi guru dan foto aktiviti sedia dicetak atau simpan PDF.
+              </p>
+            </div>
+            <div class="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex items-center text-xs font-semibold text-slate-500">
+              <i data-lucide="check" class="w-4 h-4 text-emerald-500 mr-1.5"></i> Standard format cetakan KPM
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- JELAJAH SISTEM (INTERACTIVE SHOWCASE TABS) -->
+    <section id="jelajah" class="py-24 bg-slate-100/60 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <p class="text-xs font-extrabold text-primary-600 dark:text-primary-400 uppercase tracking-widest mb-3">Antaramuka Sebenar</p>
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Jelajah Modul & Tangkapan Skrin
+          </h2>
+          <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400">
+            Klik pada setiap tab di bawah untuk melihat rupa bentuk antaramuka sebenar sistem Neo ePKS v5.
+          </p>
+        </div>
+
+        <!-- Showcase Tab Buttons -->
+        <div class="flex flex-wrap items-center justify-center gap-2.5 mb-10" id="showcaseTabList">
+          <button onclick="switchTab(0)" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 bg-primary-600 text-white shadow-md shadow-primary-500/20" data-index="0">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i> Dashboard
+          </button>
+          <button onclick="switchTab(1)" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800" data-index="1">
+            <i data-lucide="clipboard-check" class="w-4 h-4"></i> Perjumpaan
+          </button>
+          <button onclick="switchTab(2)" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800" data-index="2">
+            <i data-lucide="file-text" class="w-4 h-4"></i> Laporan A4
+          </button>
+          <button onclick="switchTab(3)" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800" data-index="3">
+            <i data-lucide="network" class="w-4 h-4"></i> Jawatan Unit
+          </button>
+          <button onclick="switchTab(4)" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800" data-index="4">
+            <i data-lucide="trophy" class="w-4 h-4"></i> Pencapaian
+          </button>
+          <button onclick="switchTab(5)" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800" data-index="5">
+            <i data-lucide="smartphone" class="w-4 h-4"></i> Paparan Mobil
+          </button>
+        </div>
+
+        <!-- Active Tab Preview Card -->
+        <div class="max-w-5xl mx-auto rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 sm:p-10 shadow-xl">
+          <div class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <h3 id="tabTitle" class="text-2xl font-extrabold text-slate-900 dark:text-white">Satu pandangan. Gambaran menyeluruh.</h3>
+              <p id="tabDesc" class="text-slate-600 dark:text-slate-400 text-sm mt-1">Lihat jumlah murid, unit kokurikulum, program dan statistik penglibatan dalam satu dashboard.</p>
+            </div>
+            <button id="tabZoomBtn" onclick="zoomCurrentTab()" class="self-start md:self-auto inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-primary-50 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 hover:bg-primary-100 transition-colors">
+              <i data-lucide="maximize-2" class="w-4 h-4"></i> Papar Penuh (Zoom)
+            </button>
+          </div>
+
+          <!-- Displayed Image Container -->
+          <div class="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-950 group cursor-pointer" onclick="zoomCurrentTab()">
+            <img id="tabImg" src="screenshots/dashboard.jpg" alt="Preview Screenshot" class="w-full h-auto max-h-[620px] object-contain mx-auto transition-transform duration-300 group-hover:scale-[1.01]">
+            <div class="absolute inset-0 bg-slate-950/0 group-hover:bg-slate-950/20 transition-colors flex items-center justify-center">
+              <span class="opacity-0 group-hover:opacity-100 transition-opacity bg-white/95 dark:bg-slate-900/95 text-slate-900 dark:text-white font-bold text-xs px-4 py-2 rounded-xl shadow-md flex items-center gap-2">
+                <i data-lucide="zoom-in" class="w-4 h-4"></i> Klik Untuk Zum Masuk
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PAPARAN MOBIL (MOBILE APP EXPERIENCE) -->
+    <section class="py-24 bg-slate-950 text-white border-t border-slate-900 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <p class="text-xs font-bold text-primary-400 tracking-widest uppercase mb-3">Pengalaman Telefon Pintar</p>
+          <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4 text-white">
+            Pengurusan Dalam Poket Anda
+          </h2>
+          <p class="text-slate-400 text-base">
+            Neo ePKS dioptimumkan sepenuhnya untuk peranti mudah alih. Guru boleh tanda kehadiran di padang dan semak status di mana sahaja.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 max-w-5xl mx-auto">
+          
+          <!-- Phone 1: Dashboard -->
+          <div class="flex flex-col items-center">
+            <div class="w-64 rounded-[2.5rem] border-[10px] border-slate-900 bg-slate-900 shadow-2xl overflow-hidden mb-6 relative cursor-pointer hover:-translate-y-2 transition-transform duration-300" onclick="openLightbox('screenshots/mobil.jpg', 'Dashboard Mobil')">
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-2xl z-30 flex justify-center items-center">
+                <div class="w-12 h-1.5 rounded-full bg-slate-800"></div>
+              </div>
+              <img src="screenshots/mobil.jpg" alt="Dashboard Mobile" class="w-full h-auto object-cover">
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Dashboard Ringkas</h3>
+            <p class="text-slate-400 text-xs text-center leading-relaxed max-w-[260px]">
+              Semak statistik penglibatan murid dan status unit secara langsung melalui paparan telefon yang kemas.
+            </p>
+          </div>
+
+          <!-- Phone 2: Perjumpaan -->
+          <div class="flex flex-col items-center">
+            <div class="w-64 rounded-[2.5rem] border-[10px] border-slate-900 bg-slate-900 shadow-2xl overflow-hidden mb-6 relative cursor-pointer hover:-translate-y-2 transition-transform duration-300" onclick="openLightbox('screenshots/perjumpaan.jpg', 'Rekod Perjumpaan Mobil')">
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-2xl z-30 flex justify-center items-center">
+                <div class="w-12 h-1.5 rounded-full bg-slate-800"></div>
+              </div>
+              <img src="screenshots/perjumpaan.jpg" alt="Perjumpaan Mobile" class="w-full h-auto object-cover">
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Rekod Perjumpaan</h3>
+            <p class="text-slate-400 text-xs text-center leading-relaxed max-w-[260px]">
+              Kemas kini kehadiran ahli serta-merta tanpa lag semasa aktiviti kokurikulum sedang berlangsung.
+            </p>
+          </div>
+
+          <!-- Phone 3: Laporan -->
+          <div class="flex flex-col items-center">
+            <div class="w-64 rounded-[2.5rem] border-[10px] border-slate-900 bg-slate-900 shadow-2xl overflow-hidden mb-6 relative cursor-pointer hover:-translate-y-2 transition-transform duration-300" onclick="openLightbox('screenshots/laporan.jpg', 'Semakan Laporan Mobil')">
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-6 bg-slate-900 rounded-b-2xl z-30 flex justify-center items-center">
+                <div class="w-12 h-1.5 rounded-full bg-slate-800"></div>
+              </div>
+              <img src="screenshots/laporan.jpg" alt="Laporan Mobile" class="w-full h-auto object-cover">
+            </div>
+            <h3 class="text-lg font-bold text-white mb-2">Semakan Laporan</h3>
+            <p class="text-slate-400 text-xs text-center leading-relaxed max-w-[260px]">
+              Teliti refleksi, foto aktiviti, dan status pengesahan terus daripada skrin telefon pintar anda.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- UNTUK SIAPA (PERANAN PENGGUNA) -->
+    <section id="peranan" class="py-24 bg-white dark:bg-slate-900/60 border-t border-slate-200 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          <div class="lg:col-span-5 space-y-6">
+            <p class="text-xs font-bold text-primary-600 dark:text-primary-400 tracking-widest uppercase">Dibina Untuk Warga Pendidik</p>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Peranan Berbeza.<br>Matlamat Yang Sama.
+            </h2>
+            <p class="text-slate-600 dark:text-slate-300 text-base leading-relaxed">
+              Pengurusan kokurikulum yang cemerlang bermula dengan maklumat yang tersusun dan mudah diakses oleh semua pihak.
+            </p>
+
+            <div class="space-y-3 pt-4" id="roleBtnList">
+              <button onclick="switchRole(0)" class="role-btn w-full flex items-center justify-between p-4 rounded-2xl border transition-all text-left bg-slate-100 dark:bg-slate-800 border-primary-500 shadow-sm" data-role="0">
+                <div class="flex items-center gap-3">
+                  <i data-lucide="graduation-cap" class="w-5 h-5 text-primary-600"></i>
+                  <span class="font-bold text-slate-900 dark:text-white text-sm">Guru Penasihat</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-primary-600"></i>
+              </button>
+
+              <button onclick="switchRole(1)" class="role-btn w-full flex items-center justify-between p-4 rounded-2xl border border-transparent transition-all text-left hover:bg-slate-50 dark:hover:bg-slate-800/50" data-role="1">
+                <div class="flex items-center gap-3">
+                  <i data-lucide="users" class="w-5 h-5 text-slate-400"></i>
+                  <span class="font-bold text-slate-600 dark:text-slate-300 text-sm">Penyelaras Kokurikulum</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 opacity-0"></i>
+              </button>
+
+              <button onclick="switchRole(2)" class="role-btn w-full flex items-center justify-between p-4 rounded-2xl border border-transparent transition-all text-left hover:bg-slate-50 dark:hover:bg-slate-800/50" data-role="2">
+                <div class="flex items-center gap-3">
+                  <i data-lucide="shield-check" class="w-5 h-5 text-slate-400"></i>
+                  <span class="font-bold text-slate-600 dark:text-slate-300 text-sm">Pentadbir Sekolah (PK Ko / Pengetua)</span>
+                </div>
+                <i data-lucide="arrow-right" class="w-4 h-4 text-slate-400 opacity-0"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Role Content Display Card -->
+          <div class="lg:col-span-7">
+            <div class="rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900 p-8 sm:p-12 shadow-xl">
+              <div class="w-14 h-14 rounded-2xl bg-primary-100 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 flex items-center justify-center mb-6">
+                <i id="roleIcon" data-lucide="graduation-cap" class="w-7 h-7"></i>
+              </div>
+              <h3 id="roleHeadline" class="text-2xl font-extrabold text-slate-900 dark:text-white mb-3">
+                Lebih masa membimbing. Kurang masa menyusun rekod.
+              </h3>
+              <p id="roleText" class="text-slate-600 dark:text-slate-300 text-base mb-8 leading-relaxed">
+                Fokus pada aktiviti bersama murid dengan rekod unit yang lebih mudah diurus secara digital tanpa kertas berselerak.
+              </p>
+              <ul id="roleItems" class="space-y-4">
+                <li class="flex items-center gap-3 text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  <span class="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </span>
+                  <span>Rekod perjumpaan dan kehadiran ahli dalam beberapa saat</span>
+                </li>
+                <li class="flex items-center gap-3 text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  <span class="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </span>
+                  <span>Lengkapkan catatan aktiviti, refleksi dan gambar dengan mudah</span>
+                </li>
+                <li class="flex items-center gap-3 text-sm font-semibold text-slate-800 dark:text-slate-200">
+                  <span class="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </span>
+                  <span>Jana laporan format rasmi A4 untuk dicetak atau difailkan</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 10 VIDEO TUTORIAL SECTION -->
+    <section id="tutorial" class="py-24 bg-slate-100/60 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6">
+        
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <div class="inline-flex items-center gap-2 rounded-full border border-primary-500/20 bg-primary-500/10 px-4 py-1.5 text-xs font-extrabold tracking-widest text-primary-600 dark:text-primary-400 uppercase mb-3">
+            <i data-lucide="video" class="w-4 h-4"></i> Pusat Video Panduan Rasmi
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            10 Video Panduan Lengkap Percuma
+          </h2>
+          <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-400">
+            Disediakan khas untuk membimbing anda dari persediaan asas Google Sheets sehinggalah kepada jana laporan dan pentaksiran PAJSK.
+          </p>
+        </div>
+
+        <!-- Filter and Search Bar -->
+        <div class="max-w-4xl mx-auto mb-10 flex flex-col md:flex-row items-center justify-between gap-4">
+          <!-- Categories Filter Buttons -->
+          <div class="flex flex-wrap items-center justify-center gap-2" id="tutorialCategoryList">
+            <button onclick="filterTutorials('Semua')" class="tut-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-primary-600 text-white shadow-sm" data-category="Semua">Semua</button>
+            <button onclick="filterTutorials('Persediaan & Setup')" class="tut-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200" data-category="Persediaan & Setup">Persediaan</button>
+            <button onclick="filterTutorials('Pengurusan Unit')" class="tut-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200" data-category="Pengurusan Unit">Unit</button>
+            <button onclick="filterTutorials('Kehadiran & Aktiviti')" class="tut-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200" data-category="Kehadiran & Aktiviti">Kehadiran</button>
+            <button onclick="filterTutorials('Laporan & Cetakan')" class="tut-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200" data-category="Laporan & Cetakan">Laporan A4</button>
+            <button onclick="filterTutorials('PAJSK & Analitik')" class="tut-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200" data-category="PAJSK & Analitik">PAJSK</button>
+          </div>
+
+          <!-- Search Input -->
+          <div class="relative w-full md:w-72">
+            <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input id="tutorialSearchInput" oninput="searchTutorials(this.value)" type="text" placeholder="Cari topik tutorial..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-primary-500">
+          </div>
+        </div>
+
+        <!-- 10 Videos Grid Container -->
+        <div id="tutorialGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <!-- Dynamically populated by JS -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- HARGA & TEMPAHAN (PRICING SECTION) -->
+    <section id="tempahan" class="py-24 bg-white dark:bg-slate-900/40 border-t border-slate-200 dark:border-slate-800 relative overflow-hidden">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
+        
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <div class="inline-flex items-center gap-2 rounded-full border border-primary-500/20 bg-primary-500/10 px-4 py-1.5 text-xs font-extrabold tracking-widest text-primary-600 dark:text-primary-400 uppercase mb-3">
+            <i data-lucide="sparkles" class="w-4 h-4"></i> Pakej Rasmi Lengkap
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            Miliki Sistem Neo ePKS v5 Sekarang
+          </h2>
+          <p class="mt-4 text-base sm:text-lg text-slate-600 dark:text-slate-300">
+            Satu pelaburan pintar untuk menjimatkan ratusan jam pengurusan kokurikulum sekolah anda sepanjang tahun.
+          </p>
+        </div>
+
+        <!-- Premium Pricing Card -->
+        <div class="max-w-2xl mx-auto">
+          <div class="relative rounded-3xl border-2 border-primary-500/40 bg-white dark:bg-slate-900 p-8 sm:p-12 shadow-2xl overflow-hidden">
+            
+            <!-- Glow background circle -->
+            <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-primary-500/10 blur-3xl pointer-events-none"></div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+              <div>
+                <p class="text-xs font-extrabold text-primary-600 uppercase tracking-widest">Lesen Penggunaan Penuh</p>
+                <h3 class="text-2xl font-extrabold text-slate-900 dark:text-white mt-1">Sistem Neo ePKS v5 (Edisi 2026)</h3>
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 text-xs font-extrabold text-emerald-600 self-start sm:self-auto">
+                <i data-lucide="tag" class="w-3.5 h-3.5"></i> Jimat RM 50
+              </span>
+            </div>
+
+            <!-- Price Display -->
+            <div class="flex items-baseline gap-4 mb-8 pb-8 border-b border-slate-200 dark:border-slate-800">
+              <span class="text-5xl sm:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight">RM 100</span>
+              <div class="flex flex-col">
+                <span class="text-lg text-slate-400 line-through font-semibold">RM 150</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400">Sekali bayar, tiada yuran bulanan tersembunyi</span>
+              </div>
+            </div>
+
+            <!-- Inclusions Checklist -->
+            <div class="space-y-4 mb-10">
+              <p class="text-sm font-bold text-slate-900 dark:text-white">Apa yang anda peroleh dalam pakej ini:</p>
+              <ul class="space-y-3.5 text-sm sm:text-base text-slate-700 dark:text-slate-300">
+                <li class="flex items-start gap-3">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span>Salinan master penuh Google Sheets & Google Apps Script Neo ePKS v5</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span>Pengurusan 3 Unit Utama (Badan Beruniform, Kelab/Persatuan, Sukan/Permainan)</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span>Modul Kehadiran Perjumpaan Mingguan Pantas & Analisis Kehadiran</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span>Pengiraan Markah PAJSK & Gred Automatik Format Rasmi KPM</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span>Modul Ekstrakurikulum & Pengurusan Rekod Jawatan / Pencapaian Murid</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span>Penjana Laporan Format A4 Rasmi & Sijil Sedia Dicetak</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span>Akses 10 Video Tutorial Lengkap Langkah Demi Langkah</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <div class="mt-0.5 w-5 h-5 rounded-full bg-primary-100 dark:bg-primary-950/60 text-primary-600 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                  </div>
+                  <span>Bimbingan & Akses Komuniti Support Group Telegram Rasmi</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a href="https://forms.gle/wBc9N9BYVN5FZf3f9" target="_blank" rel="noopener noreferrer" class="flex-1 inline-flex items-center justify-center gap-2 rounded-2xl bg-primary-600 hover:bg-primary-700 text-white px-8 py-4 text-base font-bold shadow-xl shadow-primary-500/25 transition-all hover:-translate-y-0.5">
+                <i data-lucide="file-text" class="w-5 h-5"></i>
+                <span>Klik Borang Tempahan</span>
+                <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+              </a>
+              <a href="https://t.me/AppSekolahMalaysia" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100 px-6 py-4 text-sm font-bold transition-all">
+                <i data-lucide="send" class="w-4 h-4 text-blue-500"></i>
+                <span>Komuniti Telegram</span>
+              </a>
+            </div>
+
+            <p class="text-xs text-center text-slate-500 dark:text-slate-400 mt-6">
+              ⚡ Salinan master dan akses akan dibekalkan serta-merta mengikut butiran di borang pendaftaran.
+            </p>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SOALAN LAZIM (FAQ ACCORDION) -->
+    <section id="soalan" class="py-24 bg-slate-100/60 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6">
+        
+        <div class="text-center mb-16">
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight">Soalan Lazim</h2>
+          <p class="mt-3 text-base text-slate-600 dark:text-slate-400">Jawapan pantas bagi soalan yang sering ditanya.</p>
+        </div>
+
+        <div class="space-y-4">
+          
+          <details class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+            <summary class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-slate-900 dark:text-white marker:content-none">
+              <span>Apakah itu Neo ePKS v5?</span>
+              <i data-lucide="plus" class="w-5 h-5 text-primary-600 transition-transform group-open:rotate-45"></i>
+            </summary>
+            <p class="mt-4 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+              Neo ePKS ialah sistem pengurusan kokurikulum sekolah yang menyatukan rekod perjumpaan, kehadiran ahli, pengurusan program, carta jawatan unit dan markah PAJSK murid dalam satu platform berasaskan Google Cloud & Sheets.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+            <summary class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-slate-900 dark:text-white marker:content-none">
+              <span>Adakah sistem ini memerlukan sebarang pemasangan perisian khas?</span>
+              <i data-lucide="plus" class="w-5 h-5 text-primary-600 transition-transform group-open:rotate-45"></i>
+            </summary>
+            <p class="mt-4 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+              Tidak perlu sebarang pemasangan (zero-install). Sistem beroperasi sepenuhnya melalui pelayar web (Google Chrome, Microsoft Edge, Safari) sama ada pada komputer riba, tablet mahupun telefon pintar melalui Google Drive dan Google Sheets.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+            <summary class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-slate-900 dark:text-white marker:content-none">
+              <span>Bolehkah guru menanda kehadiran di padang menggunakan telefon?</span>
+              <i data-lucide="plus" class="w-5 h-5 text-primary-600 transition-transform group-open:rotate-45"></i>
+            </summary>
+            <p class="mt-4 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+              Ya, sistem ini mempunyai antaramuka responsif khusus untuk mod telefon pintar. Guru penasihat boleh menanda kehadiran ahli perjumpaan mingguan di mana-mana sahaja tanpa perlu membawa komputer riba ke padang.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+            <summary class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-slate-900 dark:text-white marker:content-none">
+              <span>Adakah laporan perjumpaan boleh dicetak terus dalam format A4?</span>
+              <i data-lucide="plus" class="w-5 h-5 text-primary-600 transition-transform group-open:rotate-45"></i>
+            </summary>
+            <p class="mt-4 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+              Ya! Satu klik sahaja diperlukan untuk menjana helaian laporan rasmi A4 yang mengandungi butiran aktiviti, carta analisis kehadiran, refleksi guru serta foto aktiviti sedia dicetak atau dieksport ke PDF untuk fail kokurikulum.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+            <summary class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-slate-900 dark:text-white marker:content-none">
+              <span>Bagaimana cara membuat tempahan dan bayaran?</span>
+              <i data-lucide="plus" class="w-5 h-5 text-primary-600 transition-transform group-open:rotate-45"></i>
+            </summary>
+            <p class="mt-4 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+              Hanya klik butang 'Borang Tempahan' di atas atau terus ke pautan borang rasmi kami. Anda hanya perlu membuat bayaran promosi RM 100 sekali sahaja (tanpa sebarang yuran bulanan) dan pautan salinan sistem serta panduan lengkap akan dihantar kepada anda.
+            </p>
+          </details>
+
+          <details class="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm">
+            <summary class="flex cursor-pointer items-center justify-between font-bold text-base sm:text-lg text-slate-900 dark:text-white marker:content-none">
+              <span>Adakah disediakan sokongan dan bantuan selepas pembelian?</span>
+              <i data-lucide="plus" class="w-5 h-5 text-primary-600 transition-transform group-open:rotate-45"></i>
+            </summary>
+            <p class="mt-4 text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+              Ya, setiap pengguna dialu-alukan menyertai Support Group Telegram rasmi kami di <a href="https://t.me/AppSekolahMalaysia" target="_blank" class="text-primary-600 font-bold underline">t.me/AppSekolahMalaysia</a> untuk sebarang bimbingan teknikal, perkongsian tip, dan kemas kini terkini.
+            </p>
+          </details>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FINAL CALL TO ACTION -->
+    <section class="py-20 bg-gradient-to-br from-purple-700 via-primary-600 to-indigo-800 text-white relative overflow-hidden">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center relative z-10">
+        <div class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-extrabold tracking-widest text-white uppercase mb-4 backdrop-blur-md">
+          🔥 Tawaran Pengenalan: RM 100 Sahaja (Jimat RM 50)
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-extrabold text-white mb-6 tracking-tight">
+          Beri Ruang Untuk Potensi Murid.<br>Biar Rekod Lebih Mudah Diurus.
+        </h2>
+        <p class="text-lg text-white/80 mb-10 max-w-2xl mx-auto">
+          Dapatkan salinan sistem penuh Neo ePKS v5 untuk kemudahan sekolah anda sekarang.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="https://forms.gle/wBc9N9BYVN5FZf3f9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-white text-primary-700 hover:bg-slate-100 px-8 py-4 text-base font-extrabold shadow-2xl transition-transform hover:scale-105">
+            <span>Isi Borang Tempahan (RM100)</span>
+            <i data-lucide="arrow-up-right" class="w-5 h-5"></i>
+          </a>
+          <a href="https://t.me/AppSekolahMalaysia" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-2 rounded-2xl bg-white/10 border border-white/20 hover:bg-white/20 px-8 py-4 text-base font-bold text-white backdrop-blur-sm transition-transform hover:scale-105">
+            <i data-lucide="send" class="w-5 h-5"></i>
+            <span>Sertai Komuniti Telegram</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-6 text-sm text-slate-500">
+      <div class="flex items-center gap-3">
+        <span class="grid h-8 w-8 place-items-center rounded-lg bg-primary-600 text-white">
+          <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+        </span>
+        <span class="font-extrabold text-slate-900 dark:text-white">Neo ePKS v5</span>
+        <span>&copy; 2026. Hak cipta terpelihara.</span>
+      </div>
+      <div class="flex items-center gap-6 font-semibold">
+        <a href="#utama" class="hover:text-primary-600 transition-colors">Utama</a>
+        <a href="#fungsi" class="hover:text-primary-600 transition-colors">Fungsi</a>
+        <a href="#tutorial" class="hover:text-primary-600 transition-colors">Tutorial</a>
+        <a href="https://t.me/AppSekolahMalaysia" target="_blank" class="hover:text-primary-600 transition-colors">Telegram</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- IMAGE LIGHTBOX MODAL -->
+  <div id="imageLightbox" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center">
+      <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-white hover:text-primary-400 p-2 font-bold flex items-center gap-1">
+        <i data-lucide="x" class="w-6 h-6"></i> Tutup (ESC)
+      </button>
+      <img id="lightboxImg" src="" alt="Zoom Screenshot" class="w-full h-auto max-h-[80vh] object-contain rounded-2xl shadow-2xl border border-slate-800">
+      <p id="lightboxCaption" class="text-slate-300 text-sm mt-3 text-center font-medium"></p>
+    </div>
+  </div>
+
+  <!-- YOUTUBE VIDEO MODAL -->
+  <div id="videoModal" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="relative max-w-4xl w-full flex flex-col">
+      <div class="flex items-center justify-between pb-3 text-white">
+        <h4 id="videoModalTitle" class="font-bold text-base line-clamp-1">Video Tutorial</h4>
+        <button onclick="closeVideoModal()" class="text-slate-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-slate-800">
+        <iframe id="videoIframe" src="" class="w-full h-full" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPT LOGIC (VANILLA JS) -->
+  <script>
+    // --- 1. DATA MASTER TUTORIAL (10 VIDEOS) ---
+    const TUTORIAL_VIDEOS = [
+      {
+        id: "tut-1",
+        order: 1,
+        title: "Tutorial 1: Panduan Persediaan Awal & Kebenaran Google Drive",
+        desc: "Langkah pertama selepas pembelian — cara membuat salinan pangkalan data Google Sheets, kebenaran Google Apps Script dan memasukkan maklumat rasmi sekolah.",
+        youtubeId: "M7lc1UVf-VE",
+        dur: "05:30",
+        cat: "Persediaan & Setup",
+        tag: "Persediaan"
+      },
+      {
+        id: "tut-2",
+        order: 2,
+        title: "Tutorial 2: Konfigurasi Data Induk Guru & Import Senarai Murid APDM",
+        desc: "Cara mengimport data murid daripada sistem APDM KPM ke dalam jadual induk dan menyelaraskan senarai guru penasihat mengikut tingkatan dan kelas.",
+        youtubeId: "dQw4w9WgXcQ",
+        dur: "07:15",
+        cat: "Persediaan & Setup",
+        tag: "Import APDM"
+      },
+      {
+        id: "tut-3",
+        order: 3,
+        title: "Tutorial 3: Pendaftaran Ahli & Penetapan Jawatan Unit Kokurikulum",
+        desc: "Panduan memasukkan murid ke dalam 3 unit utama (Kelab/Persatuan, Badan Beruniform, Sukan/Permainan) serta lantikan jawatankuasa murid.",
+        youtubeId: "L_LUpnjgPso",
+        dur: "06:40",
+        cat: "Pengurusan Unit",
+        tag: "Jawatan Ahli"
+      },
+      {
+        id: "tut-4",
+        order: 4,
+        title: "Tutorial 4: Menjana Carta Organisasi Unit & Senarai Keahlian",
+        desc: "Cara memaparkan carta organisasi hierarki murid secara automatik untuk setiap unit dan mengeksport format visual untuk papan kenyataan kokurikulum.",
+        youtubeId: "9bZkp7q19f0",
+        dur: "04:50",
+        cat: "Pengurusan Unit",
+        tag: "Carta Organisasi"
+      },
+      {
+        id: "tut-5",
+        order: 5,
+        title: "Tutorial 5: Merekod Kehadiran Mingguan Menggunakan Telefon & Komputer",
+        desc: "Cara pantas guru penasihat menanda kehadiran perjumpaan mingguan ahli di padang atau kelas dengan carian nama pintar tanpa perlu menaip berulang kali.",
+        youtubeId: "jNQXAC9IVRw",
+        dur: "08:10",
+        cat: "Kehadiran & Aktiviti",
+        tag: "Tanda Kehadiran"
+      },
+      {
+        id: "tut-6",
+        order: 6,
+        title: "Tutorial 6: Catatan Laporan Aktiviti Mingguan & Muat Naik Foto",
+        desc: "Panduan memasukkan ringkasan tajuk aktiviti, kemahiran dipelajari, refleksi guru dan lampiran gambar aktiviti yang dimampatkan secara automatik ke Google Drive.",
+        youtubeId: "fJ9rUzIMcZQ",
+        dur: "06:20",
+        cat: "Kehadiran & Aktiviti",
+        tag: "Foto & Refleksi"
+      },
+      {
+        id: "tut-7",
+        order: 7,
+        title: "Tutorial 7: Menjana & Mencetak Laporan Perjumpaan Format A4 Rasmi",
+        desc: "Cara satu klik untuk menjana lembaran laporan perjumpaan mingguan standard A4 lengkap dengan analisis kehadiran, foto berwarna, dan ruang tandatangan pengesahan.",
+        youtubeId: "kXYiU_JCYtU",
+        dur: "05:45",
+        cat: "Laporan & Cetakan",
+        tag: "Laporan A4"
+      },
+      {
+        id: "tut-8",
+        order: 8,
+        title: "Tutorial 8: Pengurusan Program Sekolah & Buku Rekod Peristiwa",
+        desc: "Pengurusan acara peringkat sekolah seperti Kejohanan Merentas Desa, Hari Sukan Tahunan, dan Perkhemahan Bersepadu untuk kompilasi laporan menyeluruh.",
+        youtubeId: "kJQP7kiw5Fk",
+        dur: "07:00",
+        cat: "Laporan & Cetakan",
+        tag: "Acara Sekolah"
+      },
+      {
+        id: "tut-9",
+        order: 9,
+        title: "Tutorial 9: Formula Pentaksiran PAJSK & Markah Ekstrakurikulum",
+        desc: "Memahami pengiraan markah PAJSK secara automatik berdasarkan formula rasmi (Kehadiran 50%, Jawatan 10%, Penglibatan 20%, Prestasi 20%) serta bonus ekstrakurikulum.",
+        youtubeId: "OPf0YbXqDm0",
+        dur: "09:15",
+        cat: "PAJSK & Analitik",
+        tag: "Kira PAJSK"
+      },
+      {
+        id: "tut-10",
+        order: 10,
+        title: "Tutorial 10: Pemantauan Dashboard Penyelaras & Eksport Audit Sekolah",
+        desc: "Panduan untuk Penyelaras Kokurikulum dan Pentadbir menyemak statistik peratus penglibatan, kelengkapan fail setiap unit, dan eksport data untuk semakan JPN/PPD.",
+        youtubeId: "3JZ_D3ELwOQ",
+        dur: "06:30",
+        cat: "PAJSK & Analitik",
+        tag: "Audit Penyelaras"
+      }
+    ];
+
+    // --- 2. SHOWCASE TABS DATA ---
+    const SHOWCASE_TABS = [
+      {
+        name: "Dashboard",
+        img: "screenshots/dashboard.jpg",
+        title: "Satu pandangan. Gambaran menyeluruh.",
+        desc: "Lihat jumlah murid, unit kokurikulum, program dan statistik penglibatan dalam satu dashboard."
+      },
+      {
+        name: "Perjumpaan",
+        img: "screenshots/perjumpaan.jpg",
+        title: "Setiap perjumpaan, direkod dengan kemas.",
+        desc: "Semak tarikh, kehadiran dan status laporan bagi setiap perjumpaan unit kokurikulum."
+      },
+      {
+        name: "Laporan A4",
+        img: "screenshots/laporan.jpg",
+        title: "Daripada aktiviti kepada dokumentasi.",
+        desc: "Laporan merangkum kehadiran, aktiviti, refleksi dan foto dalam format A4 untuk dicetak."
+      },
+      {
+        name: "Jawatan Unit",
+        img: "screenshots/jawatan.jpg",
+        title: "Kepimpinan murid, lebih tersusun.",
+        desc: "Lihat lantikan jawatankuasa dalam paparan carta organisasi atau jadual mengikut unit."
+      },
+      {
+        name: "Pencapaian",
+        img: "screenshots/pencapaian.jpg",
+        title: "Setiap penglibatan ada ceritanya.",
+        desc: "Semak rumusan kehadiran, jawatan dan pencapaian murid dengan penapis unit, tingkatan dan kelas."
+      },
+      {
+        name: "Paparan Mobil",
+        img: "screenshots/mobil.jpg",
+        title: "Maklumat sekolah, dalam genggaman.",
+        desc: "Paparan ringkas untuk menyemak dashboard dan mengakses modul melalui telefon."
+      }
+    ];
+
+    let currentTabIndex = 0;
+
+    function switchTab(index) {
+      currentTabIndex = index;
+      const data = SHOWCASE_TABS[index];
+      document.getElementById('tabTitle').innerText = data.title;
+      document.getElementById('tabDesc').innerText = data.desc;
+      document.getElementById('tabImg').src = data.img;
+
+      // Update button active state
+      document.querySelectorAll('#showcaseTabList .tab-btn').forEach((btn, i) => {
+        if (i === index) {
+          btn.className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 bg-primary-600 text-white shadow-md shadow-primary-500/20";
+        } else {
+          btn.className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm transition-all duration-200 flex items-center gap-2 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800";
+        }
+      });
+    }
+
+    function zoomCurrentTab() {
+      const data = SHOWCASE_TABS[currentTabIndex];
+      openLightbox(data.img, data.title);
+    }
+
+    // --- 3. ROLES SWITCHER DATA ---
+    const ROLES_DATA = [
+      {
+        icon: "graduation-cap",
+        headline: "Lebih masa membimbing. Kurang masa menyusun rekod.",
+        text: "Fokus pada aktiviti bersama murid dengan rekod unit yang lebih mudah diurus secara digital tanpa kertas berselerak.",
+        items: [
+          "Rekod perjumpaan dan kehadiran ahli dalam beberapa saat",
+          "Lengkapkan catatan aktiviti, refleksi dan gambar dengan mudah",
+          "Jana laporan format rasmi A4 untuk dicetak atau difailkan"
+        ]
+      },
+      {
+        icon: "users",
+        headline: "Semua unit bergerak. Anda dapat gambaran penuh.",
+        text: "Rujuk maklumat unit dan penglibatan murid dalam satu tempat untuk membantu penyelarasan sekolah dengan efisien.",
+        items: [
+          "Semak statistik penglibatan mengikut kategori unit",
+          "Rujuk jawatankuasa bagi setiap kelab dan badan beruniform",
+          "Tapis dan audit rumusan pencapaian murid dengan mudah"
+        ]
+      },
+      {
+        icon: "shield-check",
+        headline: "Maklumat yang jelas untuk semakan yang lebih mudah.",
+        text: "Dapatkan gambaran kokurikulum sekolah secara menyeluruh dan rujuk dokumentasi aktiviti dengan lebih teratur.",
+        items: [
+          "Lihat ringkasan menyeluruh bilangan murid, unit dan program",
+          "Semak rumusan kehadiran dan markah pentaksiran PAJSK",
+          "Rujuk fail laporan aktiviti untuk dokumentasi sekolah bila-bila masa"
+        ]
+      }
+    ];
+
+    function switchRole(index) {
+      const r = ROLES_DATA[index];
+      document.getElementById('roleHeadline').innerText = r.headline;
+      document.getElementById('roleText').innerText = r.text;
+      
+      const roleItemsEl = document.getElementById('roleItems');
+      roleItemsEl.innerHTML = r.items.map(item => `
+        <li class="flex items-center gap-3 text-sm font-semibold text-slate-800 dark:text-slate-200">
+          <span class="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center shrink-0">
+            <i data-lucide="check" class="w-3.5 h-3.5"></i>
+          </span>
+          <span>${item}</span>
+        </li>
+      `).join('');
+
+      // Update button active state
+      document.querySelectorAll('#roleBtnList .role-btn').forEach((btn, i) => {
+        const arrow = btn.querySelector('[data-lucide="arrow-right"]');
+        const icon = btn.querySelector('i:first-child');
+        const span = btn.querySelector('span');
+
+        if (i === index) {
+          btn.className = "role-btn w-full flex items-center justify-between p-4 rounded-2xl border transition-all text-left bg-slate-100 dark:bg-slate-800 border-primary-500 shadow-sm";
+          if (arrow) arrow.classList.remove('opacity-0');
+          if (icon) icon.className = "w-5 h-5 text-primary-600";
+          if (span) span.className = "font-bold text-slate-900 dark:text-white text-sm";
+        } else {
+          btn.className = "role-btn w-full flex items-center justify-between p-4 rounded-2xl border border-transparent transition-all text-left hover:bg-slate-50 dark:hover:bg-slate-800/50";
+          if (arrow) arrow.classList.add('opacity-0');
+          if (icon) icon.className = "w-5 h-5 text-slate-400";
+          if (span) span.className = "font-bold text-slate-600 dark:text-slate-300 text-sm";
+        }
+      });
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // --- 4. TUTORIAL VIDEOS RENDER & FILTER ---
+    let currentCategory = "Semua";
+    let currentQuery = "";
+
+    function renderTutorials() {
+      const container = document.getElementById('tutorialGrid');
+      const filtered = TUTORIAL_VIDEOS.filter(v => {
+        const matchCat = currentCategory === "Semua" || v.cat === currentCategory;
+        const q = currentQuery.trim().toLowerCase();
+        const matchQuery = !q || v.title.toLowerCase().includes(q) || v.desc.toLowerCase().includes(q) || v.cat.toLowerCase().includes(q);
+        return matchCat && matchQuery;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full py-12 text-center text-slate-400">
+            <i data-lucide="video-off" class="w-10 h-10 mx-auto mb-3 opacity-40"></i>
+            <p class="font-bold">Tiada tutorial ditemui untuk carian tersebut.</p>
+          </div>
+        `;
+        if (window.lucide) lucide.createIcons();
+        return;
+      }
+
+      container.innerHTML = filtered.map(item => `
+        <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 flex flex-col justify-between hover:border-primary-500/50 hover:shadow-xl transition-all duration-300 group">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-mono font-bold text-primary-600">#${item.order < 10 ? '0' + item.order : item.order}</span>
+              <span class="bg-primary-50 dark:bg-primary-950/60 text-primary-600 dark:text-primary-400 font-bold px-2.5 py-0.5 rounded-full">${item.tag}</span>
+            </div>
+            <h3 class="font-bold text-slate-900 dark:text-white text-base group-hover:text-primary-600 transition-colors leading-snug">
+              ${item.title}
+            </h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              ${item.desc}
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between mt-6 text-xs text-slate-500">
+            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${item.dur} min</span>
+            <button onclick="openVideoModal('${item.youtubeId}', '${item.title.replace(/'/g, "\\'")}')" class="text-primary-600 font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              Tonton Video <i data-lucide="play" class="w-3 h-3 fill-primary-600"></i>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function filterTutorials(category) {
+      currentCategory = category;
+      document.querySelectorAll('#tutorialCategoryList .tut-cat-btn').forEach(btn => {
+        if (btn.getAttribute('data-category') === category) {
+          btn.className = "tut-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-primary-600 text-white shadow-sm";
+        } else {
+          btn.className = "tut-cat-btn px-4 py-2 rounded-xl text-xs font-bold transition-all bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-200";
+        }
+      });
+      renderTutorials();
+    }
+
+    function searchTutorials(val) {
+      currentQuery = val;
+      renderTutorials();
+    }
+
+    // --- 5. LIGHTBOX & MODAL CONTROLS ---
+    function openLightbox(src, caption) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightboxCaption').innerText = caption || '';
+      const lb = document.getElementById('imageLightbox');
+      lb.classList.remove('hidden');
+      lb.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      const lb = document.getElementById('imageLightbox');
+      lb.classList.add('hidden');
+      lb.classList.remove('flex');
+      document.body.style.overflow = 'unset';
+    }
+
+    function openVideoModal(youtubeId, title) {
+      document.getElementById('videoModalTitle').innerText = title;
+      document.getElementById('videoIframe').src = `https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`;
+      const vm = document.getElementById('videoModal');
+      vm.classList.remove('hidden');
+      vm.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeVideoModal() {
+      document.getElementById('videoIframe').src = '';
+      const vm = document.getElementById('videoModal');
+      vm.classList.add('hidden');
+      vm.classList.remove('flex');
+      document.body.style.overflow = 'unset';
+    }
+
+    // ESC Key listener to close modals
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeLightbox();
+        closeVideoModal();
+      }
+    });
+
+    // Close when clicking modal backdrop
+    document.getElementById('imageLightbox').addEventListener('click', (e) => {
+      if (e.target.id === 'imageLightbox') closeLightbox();
+    });
+    document.getElementById('videoModal').addEventListener('click', (e) => {
+      if (e.target.id === 'videoModal') closeVideoModal();
+    });
+
+    // --- 6. DARK / LIGHT THEME TOGGLE ---
+    const themeBtn = document.getElementById('themeToggleBtn');
+    const sunIcon = document.getElementById('themeIconSun');
+    const moonIcon = document.getElementById('themeIconMoon');
+
+    function updateThemeIcons() {
+      if (document.documentElement.classList.contains('dark')) {
+        sunIcon.classList.remove('hidden');
+        moonIcon.classList.add('hidden');
+      } else {
+        sunIcon.classList.add('hidden');
+        moonIcon.classList.remove('hidden');
+      }
+    }
+
+    themeBtn.addEventListener('click', () => {
+      if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      updateThemeIcons();
+    });
+
+    // --- 7. MOBILE MENU TOGGLE ---
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const menuBars = document.getElementById('menuIconBars');
+    const menuClose = document.getElementById('menuIconClose');
+
+    mobileBtn.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.contains('hidden');
+      if (isHidden) {
+        mobileMenu.classList.remove('hidden');
+        menuBars.classList.add('hidden');
+        menuClose.classList.remove('hidden');
+      } else {
+        mobileMenu.classList.add('hidden');
+        menuBars.classList.remove('hidden');
+        menuClose.classList.add('hidden');
+      }
+    });
+
+    // Close mobile menu on clicking any navigation link
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuBars.classList.remove('hidden');
+        menuClose.classList.add('hidden');
+      });
+    });
+
+    // --- 8. INITIALIZE ON DOM READY ---
+    document.addEventListener('DOMContentLoaded', () => {
+      updateThemeIcons();
+      renderTutorials();
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
