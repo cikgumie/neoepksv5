@@ -34,7 +34,12 @@ import {
   Sparkles,
   Users,
   Video,
-  X
+  X,
+  Copy,
+  Settings,
+  MonitorPlay,
+  Smartphone,
+  MessageCircle
 } from "lucide-react"
 
 const base = process.env.NEXT_PUBLIC_BASE_PATH || ""
@@ -226,6 +231,120 @@ export default function TutorialPage() {
                 Format Terkini <strong className="text-foreground">KPM PAJSK</strong>
               </span>
             </div>
+          </motion.div>
+        </section>
+
+        {/* Sumber Penting & Pautan */}
+        <section className="max-w-5xl mx-auto mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+          >
+            <a
+              href="https://docs.google.com/spreadsheets/d/1AgeBTwiR6bbCLn6B2mfT290vOmHNcQsXWXkhgBnNOII/copy"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col p-5 rounded-2xl border border-border bg-card/50 hover:bg-card hover:border-primary/50 transition-all group shadow-sm hover:shadow-md"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="p-2 rounded-lg bg-primary/10 text-primary">
+                  <Copy size={20} />
+                </span>
+                <h3 className="font-bold text-foreground">Copy System</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">Salin pangkalan data dan sistem ke Google Drive anda.</p>
+              <span className="text-[10px] font-bold text-primary mt-auto flex items-center gap-1 group-hover:underline">
+                Buka Pautan <ArrowUpRight size={12} />
+              </span>
+            </a>
+
+            <a
+              href="https://youtu.be/nYW3Mnqi98k?si=SzKyAobWNuWoDLsq"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col p-5 rounded-2xl border border-border bg-card/50 hover:bg-card hover:border-primary/50 transition-all group shadow-sm hover:shadow-md"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="p-2 rounded-lg bg-red-500/10 text-red-500">
+                  <Settings size={20} />
+                </span>
+                <h3 className="font-bold text-foreground">Panduan Setup</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">Video panduan cara-cara setup awal sistem untuk kegunaan sekolah.</p>
+              <span className="text-[10px] font-bold text-red-500 mt-auto flex items-center gap-1 group-hover:underline">
+                Tonton Video <ArrowUpRight size={12} />
+              </span>
+            </a>
+
+            <a
+              href="https://cikgumie.github.io/neoepksv5/preview.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col p-5 rounded-2xl border border-border bg-card/50 hover:bg-card hover:border-emerald-500/50 transition-all group shadow-sm hover:shadow-md"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="p-2 rounded-lg bg-emerald-500/10 text-emerald-500">
+                  <MonitorPlay size={20} />
+                </span>
+                <h3 className="font-bold text-foreground">Demo App</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">Cuba dan terokai sistem sebenar dalam mode demo percuma.</p>
+              <span className="text-[10px] font-bold text-emerald-500 mt-auto flex items-center gap-1 group-hover:underline">
+                Cuba Demo <ArrowUpRight size={12} />
+              </span>
+            </a>
+
+            <div className="flex flex-col p-5 rounded-2xl border border-border bg-card/50 transition-all shadow-sm">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="p-2 rounded-lg bg-orange-500/10 text-orange-500">
+                  <Smartphone size={20} />
+                </span>
+                <h3 className="font-bold text-foreground">Install di Telefon</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">Pilih jenis peranti anda untuk tontonan panduan pemasangan Home Screen.</p>
+              <div className="flex items-center gap-2 mt-auto">
+                <a href="https://www.youtube.com/shorts/mRCxS9tbinI" target="_blank" rel="noopener noreferrer" className="flex-1 py-1.5 text-center text-[11px] font-bold rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-foreground transition-colors border border-border">iOS</a>
+                <a href="https://www.youtube.com/shorts/pLhvVZLRnMI" target="_blank" rel="noopener noreferrer" className="flex-1 py-1.5 text-center text-[11px] font-bold rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-foreground transition-colors border border-border">Android</a>
+              </div>
+            </div>
+
+            <a
+              href="https://t.me/AppSekolahMalaysia/20354"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col p-5 rounded-2xl border border-border bg-card/50 hover:bg-card hover:border-blue-500/50 transition-all group shadow-sm hover:shadow-md"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+                  <Users size={20} />
+                </span>
+                <h3 className="font-bold text-foreground">Group Support</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">Sertai perbincangan dan dapatkan bantuan rakan guru komuniti ePKS.</p>
+              <span className="text-[10px] font-bold text-blue-500 mt-auto flex items-center gap-1 group-hover:underline">
+                Sertai Group <ArrowUpRight size={12} />
+              </span>
+            </a>
+
+            <a
+              href="https://t.me/Cikgu_helmi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-col p-5 rounded-2xl border border-border bg-card/50 hover:bg-card hover:border-blue-500/50 transition-all group shadow-sm hover:shadow-md"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <span className="p-2 rounded-lg bg-blue-500/10 text-blue-500">
+                  <MessageCircle size={20} />
+                </span>
+                <h3 className="font-bold text-foreground">Telegram Cikgu Mie</h3>
+              </div>
+              <p className="text-xs text-muted-foreground mb-4">Ada masalah teknikal? Hubungi terus pembangun sistem secara personal.</p>
+              <span className="text-[10px] font-bold text-blue-500 mt-auto flex items-center gap-1 group-hover:underline">
+                PM Telegram <ArrowUpRight size={12} />
+              </span>
+            </a>
           </motion.div>
         </section>
 
